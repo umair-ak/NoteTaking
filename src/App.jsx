@@ -1,6 +1,7 @@
 // npx tailwindcss -i ./src/index.css -o ./output.css --watch
 
 import React, { useState } from 'react';
+import Draggable from 'react-draggable';
 import ReactMarkdown from 'react-markdown';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <form onSubmit={handleSubmit} className="mb-8">
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-4/5 p-2 border border-gray-300 rounded"
             value={currentNote}
             onChange={handleInputChange}
             placeholder="Write your note here..."
@@ -42,11 +43,13 @@ function App() {
         </form>
         <div className="flex flex-wrap justify-center gap-4">
           {notes.map((note, index) => (
+            <Draggable key={note.id}>
             <div key={index} className="bg-white rounded shadow overflow-hidden inline-block max-w-sm">
               <div className="p-4">
                 <ReactMarkdown className="prose">{note}</ReactMarkdown>
               </div>
             </div>
+            </Draggable>
           ))}
         </div>
       </main>
