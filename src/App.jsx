@@ -15,9 +15,13 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentNote.trim()) {
-      setNotes([...notes, currentNote]);
+      setNotes([...notes, { id: Date.now(), content: currentNote }]);
       setCurrentNote('');
     }
+  };
+
+  const handleDelete = (id) => {
+    setNotes(notes.filter(note => note.id !== id));
   };
 
   return (
@@ -42,13 +46,21 @@ function App() {
           </button>
         </form>
         <div className="flex flex-wrap justify-center gap-4">
-          {notes.map((note, index) => (
+          {notes.map((note) => (
             <Draggable key={note.id}>
-            <div key={index} className="bg-white rounded shadow overflow-hidden inline-block max-w-sm">
-              <div className="p-4">
-                <ReactMarkdown className="prose">{note}</ReactMarkdown>
+              <div className="bg-white rounded shadow overflow-hidden inline-block max-w-sm">
+                <div className="flex justify-end bg-gray-100">
+                  <button
+                    onClick={() => handleDelete(note.id)}
+                    className="text-red-500 hover:text-red-700 "
+                  >
+                    X
+                  </button>
+                  </div>
+                  <div className="p-4">
+                  <ReactMarkdown className="prose">{note.content}</ReactMarkdown>
+                  </div>
               </div>
-            </div>
             </Draggable>
           ))}
         </div>
